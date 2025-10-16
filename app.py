@@ -1,6 +1,7 @@
 import streamlit as st
 import pandas as pd
 from sqlalchemy import create_engine
+from sqlalchemy import text  
 
 # ---------- Configuration ----------
 st.set_page_config(page_title="Évaluation Colère et Humeur", layout="centered")
@@ -12,7 +13,7 @@ st.title("🧠 Questionnaire : Colère et Humeur (DAS & PANAS)")
 
 # Crée la table si elle n’existe pas
 with engine.connect() as conn:
-    conn.execute("""
+    conn.execute(text("""
         CREATE TABLE IF NOT EXISTS responses (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
             das_scores TEXT,
@@ -21,7 +22,8 @@ with engine.connect() as conn:
             pa_total INTEGER,
             na_total INTEGER
         )
-    """)
+    """))
+    conn.commit()
 
 # ---------- Fonctions ----------
 def compute_scores(das, panas):
