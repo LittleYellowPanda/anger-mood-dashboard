@@ -79,9 +79,11 @@ if submitted:
     # Sauvegarde
     with engine.connect() as conn:
         conn.execute(
-            "INSERT INTO responses (das_scores, panas_scores, das_total, pa_total, na_total) VALUES (?, ?, ?, ?, ?)",
-            (str(das), str(panas), das_total, pa_total, na_total)
+            text("INSERT INTO responses (das_scores, panas_scores, das_total, pa_total, na_total) VALUES (:das, :panas, :das_total, :pa_total, :na_total)"),
+            {"das": str(das), "panas": str(panas), "das_total": das_total, "pa_total": pa_total, "na_total": na_total}
         )
+        conn.commit()
+
     st.success("✅ Réponses enregistrées avec succès !")
 
     st.write("### Vos Scores")
