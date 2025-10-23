@@ -2,6 +2,7 @@ import streamlit as st
 import pandas as pd
 from sqlalchemy import create_engine
 from sqlalchemy import text  
+from io import BytesIO
 
 # ---------- Configuration ----------
 st.set_page_config(page_title="Évaluation Colère et Humeur", layout="centered")
@@ -99,3 +100,19 @@ if st.button("Actualiser les données"):
     df = pd.read_sql("SELECT * FROM responses", engine)
     st.dataframe(df)
     st.bar_chart(df[["das_total", "pa_total", "na_total"]])
+
+# ---------- EXPORT ----------
+st.markdown("### 📥 Exporter les réponses")
+if st.button("Télécharger les réponses en CSV"):
+    df = pd.read_sql("SELECT * FROM responses", engine)
+
+    if not df.empty:
+        csv = df.to_csv(index=False).encode("utf-8")
+        st.download_button(
+            label="⬇️ Télécharger le fichier CSV",
+            data=csv,
+            file_name="responses.csv",
+            mime="text/csv"
+        )
+    else:
+        st.warning("⚠️ Aucune donnée à exporter.")
