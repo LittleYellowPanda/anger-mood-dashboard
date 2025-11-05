@@ -34,15 +34,16 @@ with engine.connect() as conn:
 
 # ---------- Fonctions ----------
 def compute_dbq_scores(dbq):
-    # Subscales based on Reason et al. (1990)
-    violations_items = [1, 4, 5, 7, 16, 18, 19, 21, 27, 29]
-    errors_items = [9, 11, 12, 20, 24, 25, 30, 32, 36]
-    lapses_items = [3, 8, 10, 13, 14, 15, 17, 22, 23]
+    # ✅ Adjusted indices for DBQ-28 short version
+    violations_items = [4, 5, 7, 16, 18, 19, 21, 26, 27]
+    errors_items = [9, 11, 12, 20, 24, 25, 28]
+    lapses_items = [1, 2, 3, 6, 8, 10, 13, 14, 15, 17, 22, 23]
 
-    violations = sum(dbq[i] for i in violations_items)
-    errors = sum(dbq[i] for i in errors_items)
-    lapses = sum(dbq[i] for i in lapses_items)
+    violations = sum(dbq.get(i, 0) for i in violations_items)
+    errors = sum(dbq.get(i, 0) for i in errors_items)
+    lapses = sum(dbq.get(i, 0) for i in lapses_items)
     return violations, errors, lapses
+
 
 # ---------- FORMULAIRE ----------
 with st.form("questionnaire"):
