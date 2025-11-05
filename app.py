@@ -40,6 +40,7 @@ def compute_scores(das, panas):
 # ---------- FORMULAIRE ----------
 with st.form("questionnaire"):
     st.subheader("🚗 Partie 1 : Échelle de Colère au Volant (DAS)")
+    st.text("Il s'agit d'une échelle de 1 à 5: 1 => plus faible intensité de colère. 5 => plus forte intensité de colère.")
     das = {}
     das_questions = [
         "Quelqu'un zigzag entre les voies de circulation.",
