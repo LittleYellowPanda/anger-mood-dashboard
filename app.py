@@ -11,23 +11,22 @@ engine = create_engine(DB_PATH)
 st.title("🚗 Questionnaire : Colère au Volant (DAS) & Comportements de Conduite (DBQ)")
 
 # Crée la table si elle n’existe pas
+# Ensure the table exists
 with engine.connect() as conn:
     conn.execute(text("""
         CREATE TABLE IF NOT EXISTS responses (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
+            timestamp DATETIME DEFAULT CURRENT_TIMESTAMP,
             gender TEXT,
-            age_group TEXT,
+            age INTEGER,
             education TEXT,
-            driving_experience TEXT,
-            weekly_time TEXT,
-            reminder_method TEXT,
-            reminder_content TEXT,
-            das_scores TEXT,
-            das_total INTEGER,
-            dbq_scores TEXT,
-            violations INTEGER,
-            errors INTEGER,
-            lapses INTEGER
+            driving_experience INTEGER,
+            driving_time INTEGER,
+            traffic_light_pref TEXT,
+            das_total REAL,
+            dbq_violations REAL,
+            dbq_errors REAL,
+            dbq_lapses REAL
         )
     """))
     conn.commit()
